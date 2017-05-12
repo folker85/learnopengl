@@ -129,6 +129,10 @@
   <ItemGroup>
     <ClInclude Include="ShaderProgram.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\Simple.fragment" />
+    <None Include="shaders\Simple.vertex" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
