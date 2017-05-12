@@ -6,6 +6,8 @@
 
 #include <GLFW\glfw3.h>
 
+#include "ShaderProgram.h"
+
 void setupViewport(GLFWwindow* window);
 void setupCallbacks(GLFWwindow* window);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
