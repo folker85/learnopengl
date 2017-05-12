@@ -7,6 +7,8 @@
 
 #include <GLFW\glfw3.h>
 
+#include <SOIL.h>
+
 #include "ShaderProgram.h"
 #include "Renderable.h"
 #include "Mesh.h";
