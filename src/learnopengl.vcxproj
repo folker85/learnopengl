@@ -124,9 +124,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Renderable.h" />
+    <ClInclude Include="Vertex.h" />
     <ClInclude Include="ShaderProgram.h" />
   </ItemGroup>
   <ItemGroup>
