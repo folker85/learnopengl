@@ -11,12 +11,14 @@
 
 #include "ShaderProgram.h"
 #include "Renderable.h"
-#include "Mesh.h";
+#include "Mesh.h"
 #include "Vertex.h"
 
 void setupViewport(GLFWwindow* window);
 void setupCallbacks(GLFWwindow* window);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+
+const GLuint WIDTH = 800, HEIGHT = 600;
 
 int main()
 {
@@ -26,7 +28,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", nullptr, nullptr);
 	if (window == nullptr)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -50,11 +52,19 @@ int main()
 	const std::string fragment_shader_source_code_path = "shaders\\Simple.fragment";
 	ShaderProgram program(vertex_shader_source_code_path, fragment_shader_source_code_path);
 
-	Vertex v1 = { 0.5f, -0.5f, 0.0f };
-	Vertex v2 = { -0.5f, -0.5f, 0.0f };
-	Vertex v3 = { 0.0f,  0.5f, 0.0f };
-	std::vector<Vertex> triangle_vertices = { v1, v2, v3 };
-	Renderable* triangle = new Mesh(triangle_vertices);
+	Vertex v0 = { 0.5f,  0.5f, 0.0f }; // Top Right
+	Vertex v1 = { 0.5f, -0.5f, 0.0f }; // Bottom Right
+	Vertex v2 = { -0.5f, -0.5f, 0.0f }; // Bottom Left
+	Vertex v3 = { -0.5f,  0.5f, 0.0f }; // Top Left
+	std::vector<Vertex> vertices = { v0, v1, v2, v3};
+
+	std::vector<GLuint> indices =
+	{  // Note that we start from 0!
+		0, 1, 3, // First Triangle
+		1, 2, 3  // Second Triangle
+	};
+
+	Renderable* rectangle = new Mesh(vertices, indices);
 	
 	while (!glfwWindowShouldClose(window))
 	{
@@ -66,7 +76,7 @@ int main()
 
 		program.use();
 
-		triangle->render();
+		rectangle->render();
 
 		glfwSwapBuffers(window);
 	}

@@ -9,7 +9,7 @@
 class Mesh : public Renderable
 {
 public:
-	Mesh(const std::vector<Vertex>& vertices);
+	Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
 
 	virtual void render();
 
@@ -19,7 +19,9 @@ private:
 private:
 	GLuint _VAO;
 	GLuint _VBO;
+	GLuint _EBO;
 
 	std::vector<Vertex> _vertices;
+	std::vector<GLuint> _indices;
 };
 
