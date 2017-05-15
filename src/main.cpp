@@ -11,7 +11,7 @@
 
 #include "ShaderProgram.h"
 #include "Renderable.h"
-#include "Mesh.h";
+#include "Mesh.h"
 #include "Vertex.h"
 
 void setupViewport(GLFWwindow* window);
@@ -66,7 +66,7 @@ int main()
 
 		program.use();
 
-		triangle->render();
+		triangle->render(program);
 
 		glfwSwapBuffers(window);
 	}
