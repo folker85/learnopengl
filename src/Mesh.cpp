@@ -8,7 +8,12 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indic
 	setup();	
 }
 
-void Mesh::render()
+Mesh::~Mesh()
+{
+    glDeleteVertexArrays(1, &_VAO);
+}
+
+void Mesh::render(const ShaderProgram& shader_program)
 {
 	glBindVertexArray(_VAO);
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
@@ -18,15 +23,14 @@ void Mesh::render()
 void Mesh::setup()
 {
 	glGenVertexArrays(1, &_VAO);
+    glBindVertexArray(_VAO);
+
 	glGenBuffers(1, &_VBO);
-	glGenBuffers(1, &_EBO);
-
-	glBindVertexArray(_VAO);
-
 	glBindBuffer(GL_ARRAY_BUFFER, _VBO);
 	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex),
 		&_vertices[0], GL_STATIC_DRAW);
 
+	glGenBuffers(1, &_EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(GLuint),
 		&_indices[0], GL_STATIC_DRAW);
@@ -36,4 +40,7 @@ void Mesh::setup()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
 	
 	glBindVertexArray(0);
+
+    glDeleteBuffers(1, &_VBO);
+	glDeleteBuffers(1, &_EBO);
 }

@@ -33,6 +33,11 @@ ShaderProgram::ShaderProgram(
     glDeleteShader(fragment_shader);
 }
 
+ShaderProgram::~ShaderProgram()
+{
+    glDeleteProgram(_program);
+}
+
 void ShaderProgram::use()
 {
     glUseProgram(_program);

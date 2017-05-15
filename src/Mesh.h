@@ -10,10 +10,14 @@ class Mesh : public Renderable
 {
 public:
 	Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
+    ~Mesh();
 
-	virtual void render();
+	virtual void render(const ShaderProgram& shader_program);
 
 private:
+    Mesh(const Mesh&) = delete;
+    Mesh& operator=(const Mesh&) = delete;
+
 	void setup();
 
 private:

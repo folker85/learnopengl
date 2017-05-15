@@ -76,7 +76,7 @@ int main()
 
 		program.use();
 
-		rectangle->render();
+		rectangle->render(program);
 
 		glfwSwapBuffers(window);
 	}
