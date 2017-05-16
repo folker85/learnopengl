@@ -13,6 +13,7 @@
 #include "Renderable.h"
 #include "Mesh.h"
 #include "Vertex.h"
+#include "Axis.h"
 
 void setupViewport(GLFWwindow* window);
 void setupCallbacks(GLFWwindow* window);
@@ -65,7 +66,10 @@ int main()
 	};
 
 	Renderable* rectangle = new Mesh(vertices, indices);
-	
+    Renderable* axis_x = new Axis(AxisType::X);
+    Renderable* axis_y = new Axis(AxisType::Y);
+    Renderable* axis_Z = new Axis(AxisType::Z);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
@@ -76,7 +80,10 @@ int main()
 
 		program.use();
 
-		rectangle->render(program);
+		//rectangle->render(program);
+        axis_x->render(program);
+        axis_y->render(program);
+        axis_Z->render(program);
 
 		glfwSwapBuffers(window);
 	}

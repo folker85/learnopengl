@@ -16,6 +16,12 @@
     <Filter Include="Source Files\shaders">
       <UniqueIdentifier>{c8bc8d4b-26c8-4aee-af47-df78f4680b79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\CoordinateSystem">
+      <UniqueIdentifier>{3ce7dae7-c3c5-4857-98c1-b624a5628755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CoordinateSystem">
+      <UniqueIdentifier>{566a4bd4-0f8e-4c7a-b549-a6b31b5630f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis.cpp">
+      <Filter>Source Files\CoordinateSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +66,9 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis.h">
+      <Filter>Header Files\CoordinateSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
