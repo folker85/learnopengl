@@ -1,19 +1,31 @@
 
+ // STD
 #include <iostream>
 #include <vector>
 
+ // GLEW
 #define GLEW_STATIC
 #include <GL/glew.h>
 
+ // GLFW
 #include <GLFW\glfw3.h>
 
+ // SOIL
 #include <SOIL.h>
 
+ // GLM
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+ // PROJECT
 #include "ShaderProgram.h"
 #include "Renderable.h"
 #include "Mesh.h"
 #include "Vertex.h"
 #include "Axis.h"
+#include "Cube.h"
 
 void setupViewport(GLFWwindow* window);
 void setupCallbacks(GLFWwindow* window);
@@ -49,6 +61,9 @@ int main()
 
 	setupViewport(window);
 
+    glEnable(GL_DEPTH_TEST);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	const std::string vertex_shader_source_code_path = "shaders\\Simple.vertex";
 	const std::string fragment_shader_source_code_path = "shaders\\Simple.fragment";
 	ShaderProgram program(vertex_shader_source_code_path, fragment_shader_source_code_path);
@@ -70,20 +85,39 @@ int main()
     Renderable* axis_y = new Axis(AxisType::Y);
     Renderable* axis_Z = new Axis(AxisType::Z);
 
+    Cube cube;
+    cube.setModelMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, -4.0)));
+    auto model_matrix = cube.getModelMatrix();
+        
+    //program.use();
+
+    //glm::mat4 model = glm::translate(glm::mat4(), glm::vec3(0.0, 0.0, -4.0));
+    //glm::mat4 view = glm::lookAt(glm::vec3(0.0, 2.0, 0.0), glm::vec3(0.0, 0.0, -4.0), glm::vec3(0.0, 1.0, 0.0));
+    //glm::mat4 projection = glm::perspective(45.0f, 1.0f * WIDTH / HEIGHT, 0.1f, 10.0f);
+    //glm::mat4 mvp = projection * view * model;
+
+    //GLuint mvp_loc = glGetUniformLocation(program, "mvp");
+    //glUniformMatrix4fv(mvp_loc, 1, GL_FALSE, glm::value_ptr(mvp));
+
+    Camera camera;
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
 
 		// Render
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		program.use();
 
+        auto _model_matrix = model_matrix;
+        auto trans = glm::rotate(_model_matrix, (GLfloat)glfwGetTime() / 40 * 50.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        cube.setModelMatrix(trans);
 		//rectangle->render(program);
-        axis_x->render(program);
-        axis_y->render(program);
-        axis_Z->render(program);
+        //axis_x->render(program, camera);
+        //axis_y->render(program, camera);
+        //axis_Z->render(program, camera);
+        cube.render(program, camera);
 
 		glfwSwapBuffers(window);
 	}

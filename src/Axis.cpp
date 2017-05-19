@@ -25,7 +25,7 @@ Axis::Axis(AxisType axis_type)
     }
     case Z:
     { 
-        v1 = { 0.0f, 0.0f, -0.5f }; // not sure about direction
+        v1 = { 0.0f, 0.0f, 0.5f }; // not sure about direction
         break;
     }
     }
@@ -52,9 +52,17 @@ Axis::~Axis()
     glDeleteVertexArrays(1, &_VAO);
 }
 
-void Axis::render(const ShaderProgram& shader_program)
+void Axis::render(const ShaderProgram& shader_program, const Camera& camera)
 {
+    shader_program.use();
+
+    glm::mat4 mvp = camera.getVP() * _model_matrix;
+    GLuint mvp_loc = glGetUniformLocation(shader_program, "mvp");
+    glUniformMatrix4fv(mvp_loc, 1, GL_FALSE, glm::value_ptr(mvp));
+
     glBindVertexArray(_VAO);
     glDrawArrays(GL_LINES, 0, 2);
     glBindVertexArray(0);
+
+    shader_program.notUse();
 }

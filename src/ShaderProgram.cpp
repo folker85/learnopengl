@@ -38,9 +38,14 @@ ShaderProgram::~ShaderProgram()
     glDeleteProgram(_program);
 }
 
-void ShaderProgram::use()
+void ShaderProgram::use() const
 {
     glUseProgram(_program);
+}
+
+void ShaderProgram::notUse() const
+{
+    glUseProgram(0);
 }
 
 const std::string ShaderProgram::readShaderSourceCode(const std::string path_to_source_code)

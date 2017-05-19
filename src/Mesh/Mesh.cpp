@@ -13,11 +13,19 @@ Mesh::~Mesh()
     glDeleteVertexArrays(1, &_VAO);
 }
 
-void Mesh::render(const ShaderProgram& shader_program)
+void Mesh::render(const ShaderProgram& shader_program, const Camera& camera)
 {
+    shader_program.use();
+
+    glm::mat4 mvp = camera.getVP() * _model_matrix;
+    GLuint mvp_loc = glGetUniformLocation(shader_program, "mvp");
+    glUniformMatrix4fv(mvp_loc, 1, GL_FALSE, glm::value_ptr(mvp));
+
 	glBindVertexArray(_VAO);
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+    shader_program.notUse();
 }
 
 void Mesh::setup()
