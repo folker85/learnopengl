@@ -24,7 +24,6 @@
 #include "Renderable.h"
 #include "Mesh.h"
 #include "Vertex.h"
-#include "Axis.h"
 #include "Cube.h"
 
 void setupViewport(GLFWwindow* window);
@@ -81,24 +80,11 @@ int main()
 	};
 
 	Renderable* rectangle = new Mesh(vertices, indices);
-    Renderable* axis_x = new Axis(AxisType::X);
-    Renderable* axis_y = new Axis(AxisType::Y);
-    Renderable* axis_Z = new Axis(AxisType::Z);
 
     Cube cube;
     cube.setModelMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, -4.0)));
     auto model_matrix = cube.getModelMatrix();
         
-    //program.use();
-
-    //glm::mat4 model = glm::translate(glm::mat4(), glm::vec3(0.0, 0.0, -4.0));
-    //glm::mat4 view = glm::lookAt(glm::vec3(0.0, 2.0, 0.0), glm::vec3(0.0, 0.0, -4.0), glm::vec3(0.0, 1.0, 0.0));
-    //glm::mat4 projection = glm::perspective(45.0f, 1.0f * WIDTH / HEIGHT, 0.1f, 10.0f);
-    //glm::mat4 mvp = projection * view * model;
-
-    //GLuint mvp_loc = glGetUniformLocation(program, "mvp");
-    //glUniformMatrix4fv(mvp_loc, 1, GL_FALSE, glm::value_ptr(mvp));
-
     Camera camera;
 
 	while (!glfwWindowShouldClose(window))
@@ -114,9 +100,6 @@ int main()
         auto trans = glm::rotate(_model_matrix, (GLfloat)glfwGetTime() / 40 * 50.0f, glm::vec3(0.0f, 1.0f, 0.0f));
         cube.setModelMatrix(trans);
 		//rectangle->render(program);
-        //axis_x->render(program, camera);
-        //axis_y->render(program, camera);
-        //axis_Z->render(program, camera);
         cube.render(program, camera);
 
 		glfwSwapBuffers(window);

@@ -16,12 +16,6 @@
     <Filter Include="Source Files\shaders">
       <UniqueIdentifier>{c8bc8d4b-26c8-4aee-af47-df78f4680b79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\CoordinateSystem">
-      <UniqueIdentifier>{3ce7dae7-c3c5-4857-98c1-b624a5628755}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\CoordinateSystem">
-      <UniqueIdentifier>{566a4bd4-0f8e-4c7a-b549-a6b31b5630f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Mesh">
       <UniqueIdentifier>{6f7b37be-0bed-4163-87a5-d6c3017455cb}</UniqueIdentifier>
     </Filter>
@@ -41,9 +35,6 @@
     </ClCompile>
     <ClCompile Include="ShaderProgram.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Axis.cpp">
-      <Filter>Source Files\CoordinateSystem</Filter>
     </ClCompile>
     <ClCompile Include="Mesh\Cube.cpp">
       <Filter>Source Files\Mesh</Filter>
@@ -72,9 +63,6 @@
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Axis.h">
-      <Filter>Header Files\CoordinateSystem</Filter>
     </ClInclude>
     <ClInclude Include="Mesh\Cube.h">
       <Filter>Header Files\Mesh</Filter>
