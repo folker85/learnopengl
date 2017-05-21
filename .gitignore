@@ -4,3 +4,8 @@ src/Debug/
 src/.vs/
 *.db
 *.opendb
+.vs/
+build/
+playground/Debug/
+playground/Release/
+x64/

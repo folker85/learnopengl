@@ -1,11 +1,10 @@
 
+ // ENGINE
+#include <sce/sce.h>
+
  // STD
 #include <iostream>
 #include <vector>
-
- // GLEW
-#define GLEW_STATIC
-#include <GL/glew.h>
 
  // GLFW
 #include <GLFW\glfw3.h>
@@ -19,14 +18,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
- // PROJECT
-#include "ShaderProgram.h"
-#include "Renderable.h"
-#include "Mesh.h"
-#include "Vertex.h"
-#include "Cube.h"
 
-void setupViewport(GLFWwindow* window);
 void setupCallbacks(GLFWwindow* window);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
@@ -51,56 +43,56 @@ int main()
 
 	setupCallbacks(window);
 
-	glewExperimental = GL_TRUE;
-	if (glewInit() != GLEW_OK)
-	{
-		std::cout << "Failed to initialize GLEW" << std::endl;
-		return -1;
-	}
+	int width, height;
+	glfwGetFramebufferSize(window, &width, &height);
 
-	setupViewport(window);
-
-    glEnable(GL_DEPTH_TEST);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	 // Init engine
+	sce::Renderer* renderer = sce::init(width, height);
+	sce::Scene scene;
+	sce::Camera camera;
+	renderer->setupScene(&scene);
+	renderer->setupCamera(&camera);
 
 	const std::string vertex_shader_source_code_path = "shaders\\Simple.vertex";
 	const std::string fragment_shader_source_code_path = "shaders\\Simple.fragment";
-	ShaderProgram program(vertex_shader_source_code_path, fragment_shader_source_code_path);
+	sce::ShaderProgram program(vertex_shader_source_code_path, fragment_shader_source_code_path);
 
-	Vertex v0 = { 0.5f,  0.5f, 0.0f }; // Top Right
-	Vertex v1 = { 0.5f, -0.5f, 0.0f }; // Bottom Right
-	Vertex v2 = { -0.5f, -0.5f, 0.0f }; // Bottom Left
-	Vertex v3 = { -0.5f,  0.5f, 0.0f }; // Top Left
-	std::vector<Vertex> vertices = { v0, v1, v2, v3};
+	renderer->setupBasicShader(&program);
 
-	std::vector<GLuint> indices =
-	{  // Note that we start from 0!
-		0, 1, 3, // First Triangle
-		1, 2, 3  // Second Triangle
-	};
+	//Vertex v0 = { 0.5f,  0.5f, 0.0f }; // Top Right
+	//Vertex v1 = { 0.5f, -0.5f, 0.0f }; // Bottom Right
+	//Vertex v2 = { -0.5f, -0.5f, 0.0f }; // Bottom Left
+	//Vertex v3 = { -0.5f,  0.5f, 0.0f }; // Top Left
+	//std::vector<Vertex> vertices = { v0, v1, v2, v3};
 
-	Renderable* rectangle = new Mesh(vertices, indices);
+	//std::vector<GLuint> indices =
+	//{  // Note that we start from 0!
+	//	0, 1, 3, // First Triangle
+	//	1, 2, 3  // Second Triangle
+	//};
 
-    Cube cube;
+	//Renderable* rectangle = new Mesh(vertices, indices);
+
+    sce::Cube cube;
     cube.setModelMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, -4.0)));
     auto model_matrix = cube.getModelMatrix();
-        
-    Camera camera;
+       
+	sce::Cube cube1;
+	cube1.setModelMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, -3.0)));
+	scene.addNode(&cube);
+	scene.addNode(&cube1);
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
 
-		// Render
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		auto _model_matrix = model_matrix;
+		auto trans = glm::rotate(_model_matrix, (GLfloat)glfwGetTime() / 40 * 50.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		cube.setModelMatrix(trans);
 
-
-        auto _model_matrix = model_matrix;
-        auto trans = glm::rotate(_model_matrix, (GLfloat)glfwGetTime() / 40 * 50.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-        cube.setModelMatrix(trans);
+		renderer->render();
+       
 		//rectangle->render(program);
-        cube.render(program, camera);
 
 		glfwSwapBuffers(window);
 	}
@@ -108,13 +100,6 @@ int main()
 	glfwTerminate();
 
 	return 0;
-}
-
-void setupViewport(GLFWwindow* window)
-{
-	int width, height;
-	glfwGetFramebufferSize(window, &width, &height);
-	glViewport(0, 0, width, height);
 }
 
 void setupCallbacks(GLFWwindow* window)
